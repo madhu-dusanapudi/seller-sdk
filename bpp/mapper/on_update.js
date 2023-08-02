@@ -69,5 +69,5 @@ var temp={
     ]
 }
 
-module.exports=temp
-// export default temp
+// module.exports=temp
+export default temp

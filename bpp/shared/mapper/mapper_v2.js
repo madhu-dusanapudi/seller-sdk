@@ -37,7 +37,7 @@ class MapperVersion2{
             const obj=keys.reduce((acc,currentValue)=>{
                     if(Array.isArray(acc))
                     acc=acc[array_index]
-                    if(!acc[currentValue])
+                    if(acc[currentValue]==undefined)
                     return "undefined"
                     else
                     return acc[currentValue]
