@@ -7,7 +7,6 @@ const jsonWebToken = new JsonWebToken();
 var is_authenticated
 async function Authentication(key_id){
     try{
-
         let token=await jsonWebToken.verify(key_id)
         key_id=token?.api_key
     }catch(error){

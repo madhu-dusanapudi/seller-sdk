@@ -13,7 +13,7 @@ class MapperVersion2{
                     var array_data={}
                     for(let key in dup_mapper){
                         const d=this.Looper(data,dup_mapper[key],index)
-                        if(Object.keys(d).length===0)
+                        if(Object.keys(d).length===0 && typeof(d)=='object')
                         continue
                         array_data[key]=d
                     }

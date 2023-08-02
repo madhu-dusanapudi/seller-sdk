@@ -8,7 +8,7 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import temp from "./bpp/mapper/on_select.js";
+import temp from "./bpp/mapper/on_confirm.js";
 // import EventEmitter from 'events';
 // const eventEmitter = new EventEmitter();
 import EunimartSeller from "./bpp/eunimartseller.js";
@@ -114,7 +114,7 @@ app.get('/temp_data', async (req, res) => {
 
 // }
 // )
-var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA5NTM3ODEsImV4cCI6MTY5MDk2NDU4MX0.zjdozU0nYm7SFXpGXHxhk6INzcwuz9vLCq8zNzz-rvU")
+var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA5NjkxNDQsImV4cCI6MTY5MDk3OTk0NH0.LPwfj2W19Xeq-ao3gDuMTQeIlHoLHtpth8zTN3guZQ4")
 sdk.Router(app)
 sdk.Config({
   "subscriber_id": "ondc.eunimart.com",
@@ -169,6 +169,23 @@ const test = async () => {
   })
   
 
+  sdk.emitter.on("seller_confirm", function (data) {
+    sdk.order.Confirm(
+      {
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
+  
 
 
   // sdk.emitter.on("seller_init",function(data){
