@@ -23,11 +23,15 @@ async function Authentication(key_id){
               };
               await axios.get('https://adya-backend-prod.eunimart.com/api/v1/paywalls/subscription_orders/validation', { params })
                 .then(response => {
+                    // console.log("???",JSON.stringify(response.data))
+                    if(response?.data?.data?.plan_details?.usage?.mapper>=response.data?.data?.plan_details?.services?.SDK?.USAGE_COUNTER?.rules?.sdk || !response.data?.data.is_valid)
+                    throw new Error("please authorize with valid credentials")
+                    else
                     is_authenticated=response.data?.data.is_valid
                     encryptCache(key_id)
                 })
                 .catch(error => {
-                    throw new Error("please authorize with valid credentials")
+                    throw error
                 });
         // })()
         return true
@@ -36,14 +40,14 @@ async function Authentication(key_id){
         if(data){
             if((data?.counter+getCounter())>=data?.total_counter){
                 is_authenticated=false
-                return false
+                throw new Error("please authorize with valid credentials")
             }
         }
         return is_authenticated
     }
     else{
         is_authenticated=undefined
-        return false
+        throw new Error("please authorize with valid credentials")
     }
 }
 function setAuthentication(auth){

@@ -10,7 +10,7 @@ const jsonWebToken=new JsonWebToken()
 // import { getCounter } from '../../../subscription/subscription';
 async function cronInit(user_token){
     cron.schedule('*/5 * * * * *', () => {
-        console.log('Running a task every 5 seconds',user_token);
+        console.log('Running a task every 5 seconds');
         (async()=>{
           let token
           try{
@@ -28,22 +28,18 @@ async function cronInit(user_token){
              let get_counter=getCounter()
              if(get_counter!=0){
                var data=decryptCache()
-              //  console.log("counter   ----",get_counter,data)
               data.counter=data?.counter+ get_counter
               await axios.get('https://adya-backend-prod.eunimart.com/api/v1/paywalls/subscription_orders/validation', { params })
               .then(response => {
                 let flag=false
                 var plan_details = response.data?.data?.plan_details;
-                if((plan_details.usage.mapper+get_counter)>data?.total_counter){
+                if((plan_details.usage.mapper+get_counter)>=data?.total_counter){
                   plan_details.usage.mapper+=(data.total_counter-plan_details.usage.mapper)
                   flag=true
                 }else{
 
                   plan_details.usage.mapper += get_counter;
                 }
-// var old_mapper = plan_details.usage.mapper;
-
-                // =plan_details?.usage?.mapper
                 (async()=>{
                 await axios.post('https://adya-backend-prod.eunimart.com/api/v1/paywalls/subscription_orders/sdk_update?key='+key_id, {plan_details})
                 .then(response => {
