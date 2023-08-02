@@ -11,7 +11,6 @@ async function Authentication(key_id){
         let token=await jsonWebToken.verify(key_id)
         key_id=token?.api_key
     }catch(error){
-        // console.log("your token has expired please regenerate")
         throw new Error("your token has expired please regenerate")
     }
 

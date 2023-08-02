@@ -10,13 +10,14 @@ const payloadConstructor=new PayloadConstructor()
 const mappers=new Mappers()
 const mapperv2=new MapperVersion2()
 import {Authentication} from "../auth/auth.js";   
+import e from "cors";
 const domain="http://localhost:3000"
 class Order{
   constructor(key_id){
     this.key_id=key_id
     // this.secret_key=secret_key
   }
-async Search(payload,mapping,callback){
+async Search(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
@@ -26,7 +27,7 @@ async Search(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/get_search_request", {
           headers: {
-            "Authorization": "Bearer "+key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -51,7 +52,7 @@ async Search(payload,mapping,callback){
       // mapping2=JSON.stringify(mapping_response.data)
       // console.log(mapping_response.data,mapping)
     
-        // const data=mappers.searchMapper(mapping,response.data)
+        // const data=mappers.searchMapper(response.data)
         // const context=getContext()
         // if (context?.core_version == "1.1.0"){
           // callback(await payloadConstructor.searchMapper(data),null)
@@ -72,16 +73,17 @@ async Search(payload,mapping,callback){
 }
 }
 
-async Select(payload,mapping,callback){
+async Select(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
       var [response, mapping_response] = await Promise.all([
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/get_select_request", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -94,11 +96,12 @@ async Select(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
       //   await axios.get(payload.http_entity_endpoint)
       // .then(async function (response) {
-      //   // const data=mappers.commonMapper(mapping,response.data)
+      //   // const data=mappers.commonMapper(response.data)
       //   await axios.get(domain+"/get_select_request",{headers:{
-      //     "Authorization":`${this.key_id}`
+      //     "Authorization":"Bearer "+${this.key_id}`
       //   }}).then(async function(mapper_response){
       //     callback(await mapperv2.MapperV2ForSelect(response.data,mapping),null)
       //   }).catch(function (error){
@@ -119,11 +122,12 @@ async Select(payload,mapping,callback){
       // .catch(function (error) {
       //   callback(null,error)
       // });
-    } else{
-      console.log("please authorize with valid credentials")
-  }
+    } catch(err){
+      throw new Error("please authorize with valid credentials")
+    }
 }
-async Init(payload,mapping,callback){
+async Init(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     setCounter()
@@ -132,7 +136,7 @@ async Init(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/init/view", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -145,16 +149,17 @@ async Init(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
 //   await axios.get(domain+"/init/view",{headers:{
-//           "Authorization":`${this.key_id}`
+//           "Authorization":"Bearer "+${this.key_id}`
 //         }}).then(async function(){
 //           callback(await mapperv2.Init(response.data,mapping),null)
 //         }).catch(function (error){
 //           callback(null,error)
 //         })
-  // const data=mappers.commonMapper(mapping,response.data)
+  // const data=mappers.commonMapper(response.data)
   // const context=getContext()
   //       if (context?.core_version == "1.1.0"){ 
   //   callback(await payloadConstructor.initMapper(data),null)
@@ -164,11 +169,12 @@ async Init(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
-async Confirm(payload,mapping,callback){
+async Confirm(payload,callback){
+  try{
   const key_id=`${this.key_id}`
     if (await Authentication(key_id)) {
       setCounter()
@@ -177,7 +183,7 @@ async Confirm(payload,mapping,callback){
           axios.get(payload.http_entity_endpoint),
           axios.get(domain + "/confirm/view", {
             headers: {
-              "Authorization": key_id,
+              "Authorization":"Bearer "+key_id,
             },
           })
         ]);
@@ -190,17 +196,17 @@ async Confirm(payload,mapping,callback){
       } catch (error) {
         callback(null, error);
       }
-    
+    }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
 //   await axios.get(domain+"/init/view",{headers:{
-//     "Authorization":`${this.key_id}`
+//     "Authorization":"Bearer "+${this.key_id}`
 //   }}).then(async function(){
 //     callback(await mapperv2.MapperV2ForConfirm(response.data,mapping),null)
 //   }).catch(function (error){
 //     callback(null,error)
 //   })
-  // const data=mappers.commonMapper(mapping,response.data)
+  // const data=mappers.commonMapper(response.data)
   // var temporary={
   //   "order_id": data.order_id,
   //   "bpp_descriptor": data.bpp_descriptor,
@@ -216,11 +222,12 @@ async Confirm(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
-async Status(payload,mapping,callback){
+async Status(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     setCounter()
@@ -229,7 +236,7 @@ async Status(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/confirm/view", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -242,9 +249,10 @@ async Status(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
-//   const data=mappers.commonMapper(mapping,response.data)
+//   const data=mappers.commonMapper(response.data)
 //   const context=getContext()
 //         if (context?.core_version == "1.1.0"){ 
 //     callback(await payloadConstructor.statusMapper(data),null)
@@ -254,12 +262,13 @@ async Status(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
 
-async Update(payload,mapping,callback){
+async Update(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     setCounter()
@@ -268,7 +277,7 @@ async Update(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/update/view", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -281,9 +290,10 @@ async Update(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
-//   const data=mappers.commonMapper(mapping,response.data)
+//   const data=mappers.commonMapper(response.data)
 //   const context=getContext()
 //         if (context?.core_version == "1.1.0"){ 
 //     callback(await payloadConstructor.updateMapper(data),null)
@@ -293,13 +303,13 @@ async Update(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
 
-async Cancel(payload,mapping,callback){
-  
+async Cancel(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     setCounter()
@@ -308,7 +318,7 @@ async Cancel(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/cancel/view", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -321,9 +331,10 @@ async Cancel(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
-//   const data=mappers.commonMapper(mapping,response.data)
+//   const data=mappers.commonMapper(response.data)
 //   const context=getContext()
 //         if (context?.core_version == "1.1.0"){ 
 //     callback(await payloadConstructor.cancelMapper(data),null)
@@ -333,12 +344,13 @@ async Cancel(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
 
-async Support(payload,mapping,callback){
+async Support(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     setCounter()
@@ -347,7 +359,7 @@ async Support(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/support/view", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -360,9 +372,10 @@ async Support(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
-//   const data=mappers.commonMapper(mapping,response.data)
+//   const data=mappers.commonMapper(response.data)
 //   const context=getContext()
 //         if (context?.core_version == "1.1.0"){ 
 //     callback(await payloadConstructor.supportMapper(data),null)
@@ -372,12 +385,13 @@ async Support(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
 
-async Track(payload,mapping,callback){
+async Track(payload,callback){
+  try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     setCounter()
@@ -386,7 +400,7 @@ async Track(payload,mapping,callback){
         axios.get(payload.http_entity_endpoint),
         axios.get(domain + "/track/view", {
           headers: {
-            "Authorization": key_id,
+            "Authorization":"Bearer "+key_id,
           },
         })
       ]);
@@ -399,9 +413,10 @@ async Track(payload,mapping,callback){
     } catch (error) {
       callback(null, error);
     }
+  }
 //   await axios.get(payload.http_entity_endpoint)
 // .then(async function (response) {
-//   const data=mappers.commonMapper(mapping,response.data)
+//   const data=mappers.commonMapper(response.data)
 //   const context=getContext()
 //         if (context?.core_version == "1.1.0"){ 
 //     callback(await payloadConstructor.trackMapper(data),null)
@@ -411,8 +426,8 @@ async Track(payload,mapping,callback){
 // .catch(function (error) {
 //   callback(null,error)
 // });
-} else{
-  console.log("please authorize with valid credentials")
+} catch(err){
+  throw new Error("please authorize with valid credentials")
 }
 }
 }

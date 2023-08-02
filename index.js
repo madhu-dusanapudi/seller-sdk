@@ -114,7 +114,7 @@ app.get('/temp_data', async (req, res) => {
 
 // }
 // )
-var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA4OTg3MjksImV4cCI6MTY5MDkwOTUyOX0.YbKLByGfMV8ZDHpv07C7xxDfsJipRM-sG45U4QIFKmY")
+var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA5MDk3MTQsImV4cCI6MTY5MDkyMDUxNH0.0ADjyf8ojmNtc3IvqVRMSAnH1R4z-_u-sIQGF-OG4Q0")
 sdk.Router(app)
 sdk.Config({
   "subscriber_id": "ondc.eunimart.com",
@@ -145,149 +145,23 @@ const test = async () => {
         "header_authentication": true,
         "set_authorization_header": true
       },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
+
+  sdk.emitter.on("seller_select", function (data) {
+    sdk.order.Select(
       {
-        "api_key": "v83sqH4JZuoCZciBLxYfx75klrM7tQ6z",
-        "message": {
-            "catalog": {
-                "bpp/providers": [
-                    {
-                        "id": "provider_id",
-                        "descriptor": {
-                            "name": "store_details.store_name",
-                            "symbol": "store_details.store_symbol",
-                            "short_desc": "store_details.store_description",
-                            "long_desc": "store_details.store_description"
-                        },
-                        "locations": [
-                            {
-                                "address": {
-                                    "locality": "inventory_details.physical_location.address.address_line_1",
-                                    "street": "inventory_details.physical_location.address.address_line_2",
-                                    "city": "inventory_details.physical_location.address.city",
-                                    "area_code": "inventory_details.physical_location.address.pin_code",
-                                    "state": "inventory_details.physical_location.address.state"
-                                },
-                                "circle": {
-                                    "radius": {
-                                        "unit": "product_pricing_details.sales_price",
-                                        "value": "product_pricing_details.cost_price"
-                                    },
-                                    "gps": "inventory_details.physical_location.latitude"
-                                },
-                                "time": {
-                                    "schedule": {
-                                        "holidays": "store_details.store_timings",
-                                        "frequency": "store_details.enable_email_notifications",
-                                        "times": "store_details.established_on"
-                                    },
-                                    "range": {
-                                        "start": "store_details.financial_year_start",
-                                        "end": "store_details.financial_year_end"
-                                    },
-                                    "days": "store_details.store_name"
-                                },
-                                "id": "inventory_details.product_variant_id",
-                                "gps": "inventory_details.product_variant_id"
-                            }
-                        ],
-                        "items": [
-                            {
-                                "quantity": {
-                                    "available": {
-                                        "count": "inventory_detail.maximum_quantity"
-                                    },
-                                    "maximum": {
-                                        "count": "inventory_detail.available_quantity"
-                                    }
-                                },
-                                "price": {
-                                    "currency": "inventory_details.physical_location.product_pricing_details.currency.name",
-                                    "value": "inventory_details.physical_location.product_pricing_details.sales_price",
-                                    "maximum_value": "inventory_details.physical_location.product_pricing_details.mrp"
-                                },
-                                "id": "inventory_details.physical_location.latitude",
-                                "category_id": "category.category_code"
-                            }
-                        ],
-                        "fulfillments": [
-                            {
-                                "contact": {
-                                    "phone": "inventory_details.test.mobile_number",
-                                    "email": "inventory_details.test.email"
-                                }
-                            }
-                        ],
-                        "tags": []
-                    }
-                ],
-                "bpp/fulfillments": [
-                    {
-                        "id": "1",
-                        "type": "Delivery"
-                    }
-                ],
-                "bpp/descriptor": {
-                    "name": "Globallinker Mall",
-                    "symbol": "https://lsmedia.linker-cdn.net/292558/2023/8027568.jpeg",
-                    "short_desc": "Globallinker Mall",
-                    "long_desc": "Globallinker Mall"
-                }
-            }
-        },
-        "product_attribute_values": [
-            {
-                "category_code": "RET-10-1C-10-12",
-                "value": {
-                    "@ondc/org/returnable": "fssai_license_no",
-                    "@ondc/org/time_to_ship": "fssai_license_no",
-                    "@ondc/org/package_dimensions": {
-                        "package_length": "fssai_license_no",
-                        "package_width": "fssai_license_no",
-                        "package_height": "fssai_license_no",
-                        "package_weight": "fssai_license_no",
-                        "volumetric_weight": "fssai_license_no",
-                        "package_cost": "fssai_license_no"
-                    },
-                    "@ondc/org/contact_details_consumer_care": "fssai_license_no",
-                    "@ondc/org/statutory_reqs_prepackaged_food": {
-                        "ingredients_info": "fssai_license_no",
-                        "nutritional_info": "fssai_license_no",
-                        "additives_info": "fssai_license_no",
-                        "manufacturer_or_packer_name": "fssai_license_no",
-                        "manufacturer_or_packer_address": "fssai_license_no",
-                        "brand_owner_name": "fssai_license_no",
-                        "brand_owner_FSSAI_logo": "fssai_license_no",
-                        "brand_owner_FSSAI_license_no": "fssai_license_no",
-                        "other_FSSAI_license_no": "fssai_license_no",
-                        "net_quantity": "fssai_license_no",
-                        "importer_name": "fssai_license_no",
-                        "importer_address": "fssai_license_no",
-                        "importer_FSSAI_logo": "fssai_license_no",
-                        "importer_FSSAI_license_no": "fssai_license_no",
-                        "imported_product_country_of_origin": "fssai_license_no",
-                        "other_importer_name": "fssai_license_no",
-                        "other_importer_address": "fssai_license_no",
-                        "other_premises": "fssai_license_no",
-                        "other_importer_country_of_origin": "fssai_license_no"
-                    },
-                    "@ondc/org/cancellable": "fssai_license_no",
-                    "expected_delivery_time": "fssai_license_no",
-                    "@ondc/org/return_window": "fssai_license_no",
-                    "@ondc/org/seller_pickup_return": "fssai_license_no"
-                },
-                "tags": [
-                    {
-                        "code": "Servicebility",
-                        "list": [
-                            {
-                                "code": "Home & Decour"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
       async function (data, err) {
         console.log(JSON.stringify(data),err)
       },
