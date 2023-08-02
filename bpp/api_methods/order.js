@@ -230,17 +230,17 @@ async Status(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
       var [response, mapping_response] = await Promise.all([
         axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/confirm/view", {
+        axios.get(domain + "/status/view", {
           headers: {
             "Authorization":"Bearer "+key_id,
           },
         })
       ]);
-      const mappedData = await mapperv2.MapperV2ForConfirm(
+      const mappedData = await mapperv2.MapperV2ForStatus(
         response.data,
         mapping_response.data
       );
