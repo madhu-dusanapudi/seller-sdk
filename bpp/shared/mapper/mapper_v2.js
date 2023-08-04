@@ -8,7 +8,7 @@ class MapperVersion2{
             var dup_mapper=mapper[0]
             var temp=[]
             while(true){
-                if(index==250)throw new Error("please provide valid mapping")
+                if(index==250)throw new Error("please provide valid mapping").message
                 try{
                     var array_data={}
                     for(let key in dup_mapper){
@@ -100,8 +100,10 @@ class MapperVersion2{
         //     }
         // }
         // res.message.order=this.Looper(data,mapper)
-        const res=this.Looper(data,mapper)
-        console.log(res)
+        var res={
+            "message":{}
+        }
+        res.message=this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_select"
@@ -110,7 +112,10 @@ class MapperVersion2{
         return await bppProtocolOnSelect(res.context?.bap_uri, res); 
     }
     async MapperV2ForInit(data,mapper){
-        const res=this.Looper(data,mapper)
+        var res={
+            "message":{}
+        }
+        res.message=this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_init"

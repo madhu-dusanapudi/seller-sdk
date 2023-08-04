@@ -8,7 +8,7 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import temp from "./bpp/mapper/on_status.js";
+import temp from "./bpp/mapper/on_select.js";
 // import EventEmitter from 'events';
 // const eventEmitter = new EventEmitter();
 import EunimartSeller from "./bpp/eunimartseller.js";
@@ -89,6 +89,7 @@ var category_object = {
 }
 
 app.get('/temp_data', async (req, res) => {
+  const p=req.query.productName
   res.json(temp)
 })
 // app.post('/on_search', async (req, res) => {
@@ -114,7 +115,7 @@ app.get('/temp_data', async (req, res) => {
 
 // }
 // )
-var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA5ODgxNTUsImV4cCI6MTY5MDk5ODk1NX0.6XtcRh2K1oh-Lg1CADw55AvdxiTbgRxap5hUbHpn3rA")
+var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTExNDIxODAsImV4cCI6MTY5MTE1Mjk4MH0.m02TavX_3Ctb2jvs2e-PqwHJU-anznvv40DH4otoIjs")
 sdk.Router(app)
 sdk.Config({
   "subscriber_id": "ondc.eunimart.com",

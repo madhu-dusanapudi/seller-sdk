@@ -112,14 +112,21 @@ async Select(payload,callback){
   if (await Authentication(key_id)) {
     // setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/get_select_request", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/get_select_request", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
+      var mapping_response=await axios.get(domain + "/get_select_request", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
       const mappedData = await mapperv2.MapperV2ForSelect(
         response.data,
         mapping_response.data
