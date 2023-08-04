@@ -24,6 +24,11 @@ class Config {
             }
         }
         catch(err){
+            process.on('unhandledRejection', (reason, promise) => {
+                console.error('Exception occured:', reason);
+                process.exit(1); // Optionally, you can choose to terminate the process.
+              });
+              
             throw err
         }
     }

@@ -2,13 +2,15 @@ import axios from "axios";
 import Mappers from '../shared/mapper/dynamic_mapper.js'
 import {getCounter, setCounter} from '../subscription/subscription.js'
 import { getContext } from "../config/global_context.js";
+import JsonWebToken from "../shared/utils/authentication/json-web-token.js";
 import MapperVersion2 from "../shared/mapper/mapper_v2.js";
-// import temp from "../mapper/on_select.js";
 import {PayloadConstructor, PayloadConstructorVersion2} from '../mapper/mapper.js'
+import { getSearch } from "../shared/utils/requests/requests_data.js";
 const payloadConstructor=new PayloadConstructor()
 // const payloadConstructorV2=new PayloadConstructorVersion2()
 const mappers=new Mappers()
 const mapperv2=new MapperVersion2()
+const jsonWebToken=new JsonWebToken()
 import {Authentication} from "../auth/auth.js";   
 import e from "cors";
 const domain="http://localhost:3000"
@@ -19,18 +21,49 @@ class Order{
   }
 async Search(payload,callback){
   try{
-  const key_id=`${this.key_id}`
+  var key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
     // setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/get_search_request", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // let token=await jsonWebToken.verify(key_id)
+      //   key_id=token?.api_key
+      const searchRequest=getSearch()
+      const mapping_response=await axios.get(domain + "/get_search_request", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      var response
+      if(searchRequest?.message?.intent?.item?.descriptor?.name)
+      {
+        var param_key=user_endpoint.params.find(item => item.key === "product_name");
+        param_key=param_key.value
+        response=await axios.get(user_endpoint.endpoint,{params:{
+          [param_key]:searchRequest?.message?.intent?.item?.descriptor?.name
+        }
+      },
+      {headers:user_endpoint.headers||{}})
+      }else if(searchRequest?.message?.intent?.category?.id){
+        var param_key=user_endpoint.params.find(item => item.key === "category_id");
+        param_key=param_key.value
+        response=await axios.get(user_endpoint.endpoint,{params:{
+          param_key:searchRequest?.message?.intent?.category?.id
+        }
+      },
+      {headers:user_endpoint.headers||{}})
+      }else{
+        response=await axios.get(user_endpoint.endpoint,
+      {headers:user_endpoint.headers||{}})
+      }
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/get_search_request", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
       const mappedData = await mapperv2.MapperV2ForSearch(
         response.data,
         mapping_response.data
@@ -69,7 +102,7 @@ async Search(payload,callback){
   //     console.log("please authorize with valid credentials")
   // }
 }catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 
@@ -123,7 +156,7 @@ async Select(payload,callback){
       //   callback(null,error)
       // });
     } catch(err){
-      throw new Error("please authorize with valid credentials")
+      throw new Error("please authorize with valid credentials").message
     }
 }
 async Init(payload,callback){
@@ -170,7 +203,7 @@ async Init(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 async Confirm(payload,callback){
@@ -223,7 +256,7 @@ async Confirm(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 async Status(payload,callback){
@@ -263,7 +296,7 @@ async Status(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 
@@ -304,7 +337,7 @@ async Update(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 
@@ -345,7 +378,7 @@ async Cancel(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 
@@ -386,7 +419,7 @@ async Support(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 
@@ -427,7 +460,7 @@ async Track(payload,callback){
 //   callback(null,error)
 // });
 } catch(err){
-  throw new Error("please authorize with valid credentials")
+  throw new Error("please authorize with valid credentials").message
 }
 }
 }

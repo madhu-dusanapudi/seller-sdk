@@ -21,9 +21,7 @@ class SearchController {
     * @return {callback}
     */
     async bppSearch(req, res, next) {
-        let data = {
-            response: JSON.stringify(req.body),
-        }
+        let data = req.body
         setContext(req.body.context)
         Emitter("seller_search", data)
         setTimeout(() => {
