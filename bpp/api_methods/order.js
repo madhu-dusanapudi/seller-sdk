@@ -172,14 +172,21 @@ async Init(payload,callback){
   if (await Authentication(key_id)) {
     setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/init/view", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/init/view", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
+      var mapping_response=await axios.get(domain + "/init/view", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
       const mappedData = await mapperv2.MapperV2ForInit(
         response.data,
         mapping_response.data
@@ -219,14 +226,21 @@ async Confirm(payload,callback){
     if (await Authentication(key_id)) {
       // setCounter()
       try {
-        var [response, mapping_response] = await Promise.all([
-          axios.get(payload.http_entity_endpoint),
-          axios.get(domain + "/confirm/view", {
-            headers: {
-              "Authorization":"Bearer "+key_id,
-            },
-          })
-        ]);
+        // var [response, mapping_response] = await Promise.all([
+        //   axios.get(payload.http_entity_endpoint),
+        //   axios.get(domain + "/confirm/view", {
+        //     headers: {
+        //       "Authorization":"Bearer "+key_id,
+        //     },
+        //   })
+        // ]);
+        var mapping_response=await axios.get(domain + "/confirm/view", {
+          headers: {
+            "Authorization":"Bearer "+key_id,
+          },
+        })
+        const user_endpoint=mapping_response.data.user_api
+        const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
         const mappedData = await mapperv2.MapperV2ForConfirm(
           response.data,
           mapping_response.data
@@ -272,14 +286,21 @@ async Status(payload,callback){
   if (await Authentication(key_id)) {
     // setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/status/view", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/status/view", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
+      var mapping_response=await axios.get(domain + "/status/view", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
       const mappedData = await mapperv2.MapperV2ForStatus(
         response.data,
         mapping_response.data
@@ -313,14 +334,21 @@ async Update(payload,callback){
   if (await Authentication(key_id)) {
     setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/update/view", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/update/view", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
+      var mapping_response=await axios.get(domain + "/update/view", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
       const mappedData = await mapperv2.MapperV2ForUpdate(
         response.data,
         mapping_response.data
@@ -354,14 +382,21 @@ async Cancel(payload,callback){
   if (await Authentication(key_id)) {
     setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/cancel/view", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/cancel/view", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
+      var mapping_response=await axios.get(domain + "/cancel/view", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
       const mappedData = await mapperv2.MapperV2ForCancel(
         response.data,
         mapping_response.data

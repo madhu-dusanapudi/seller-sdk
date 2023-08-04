@@ -124,7 +124,10 @@ class MapperVersion2{
         return await bppProtocolOnInit(res.context?.bap_uri, res); 
     }
     async MapperV2ForConfirm(data,mapper){
-        const res=this.Looper(data,mapper)
+        var res = {
+            "message":{}
+        }
+        res.message = this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_confirm"
@@ -132,8 +135,11 @@ class MapperVersion2{
         res["context"]=getContext()
         return await bppProtocolOnConfirm(res.context?.bap_uri, res); 
     }
-    async MapperV2ForUpdate(data,mapper){v83sqH4JZuoCZciBLxYfx75klrM7tQ6z
-        const res=this.Looper(data,mapper)
+    async MapperV2ForUpdate(data,mapper){
+        var res = {
+            "message":{}
+        }
+        res.message = this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_update"
@@ -142,7 +148,10 @@ class MapperVersion2{
         return await bppProtocolOnUpdate(res.context?.bap_uri, res); 
     }
     async MapperV2ForStatus(data,mapper){
-        const res=this.Looper(data,mapper)
+        var res = {
+            "message":{}
+        }
+        res.message = this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_status"
@@ -169,7 +178,10 @@ class MapperVersion2{
         return await bppProtocolOnSupport(res.context?.bap_uri, res); 
     }
     async MapperV2ForCancel(data,mapper){
-        const res=this.Looper(data,mapper)
+        var res = {
+            "message":{}
+        }
+        res.message = this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_cancel"
