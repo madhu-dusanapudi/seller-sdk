@@ -8,7 +8,7 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import temp from "./bpp/mapper/on_confirm.js";
+import temp from "./bpp/mapper/on_status.js";
 // import EventEmitter from 'events';
 // const eventEmitter = new EventEmitter();
 import EunimartSeller from "./bpp/eunimartseller.js";
@@ -114,7 +114,7 @@ app.get('/temp_data', async (req, res) => {
 
 // }
 // )
-var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA5ODUzMjgsImV4cCI6MTY5MDk5NjEyOH0.SYKHMGFpiL0agdJCIQD9pzL-iLnvg7fqzps-OurO79M")
+var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTA5ODgxNTUsImV4cCI6MTY5MDk5ODk1NX0.6XtcRh2K1oh-Lg1CADw55AvdxiTbgRxap5hUbHpn3rA")
 sdk.Router(app)
 sdk.Config({
   "subscriber_id": "ondc.eunimart.com",
@@ -167,7 +167,23 @@ const test = async () => {
       },
     )
   })
-  
+
+  sdk.emitter.on("seller_cancel", function (data) {
+    sdk.order.Cancel(
+      {
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
 
   sdk.emitter.on("seller_confirm", function (data) {
     sdk.order.Confirm(
@@ -185,7 +201,59 @@ const test = async () => {
       },
     )
   })
+
+  sdk.emitter.on("seller_init", function (data) {
+    sdk.order.Init(
+      {
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
+
+  sdk.emitter.on("seller_status", function (data) {
+    sdk.order.Status(
+      {
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
+
+  sdk.emitter.on("seller_update", function (data) {
+    sdk.order.Update(
+      {
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
   
+
 
 
   // sdk.emitter.on("seller_init",function(data){
