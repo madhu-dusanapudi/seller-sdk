@@ -23,7 +23,7 @@ async Search(payload,callback){
   try{
   var key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    // setCounter()
+    // // setCounter()
     try {
       // let token=await jsonWebToken.verify(key_id)
       //   key_id=token?.api_key
@@ -83,7 +83,7 @@ async Search(payload,callback){
       // mapping_response=mapping_response.data
       // let mapping2={}
       // mapping2=JSON.stringify(mapping_response.data)
-      // console.log(mapping_response.data,mapping)
+      // console.log(mapcredentialsping_response.data,mapping)
     
         // const data=mappers.searchMapper(response.data)
         // const context=getContext()
@@ -110,7 +110,7 @@ async Select(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    // setCounter()
+    // // setCounter()
     try {
       // var [response, mapping_response] = await Promise.all([
       //   axios.get(payload.http_entity_endpoint),
@@ -170,7 +170,7 @@ async Init(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
       // var [response, mapping_response] = await Promise.all([
       //   axios.get(payload.http_entity_endpoint),
@@ -224,7 +224,7 @@ async Confirm(payload,callback){
   try{
   const key_id=`${this.key_id}`
     if (await Authentication(key_id)) {
-      // setCounter()
+      // // setCounter()
       try {
         // var [response, mapping_response] = await Promise.all([
         //   axios.get(payload.http_entity_endpoint),
@@ -241,6 +241,8 @@ async Confirm(payload,callback){
         })
         const user_endpoint=mapping_response.data.user_api
         const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
+        // console.log("Dataaa", response.data)
+        console.log("Mapping response ", JSON.stringify(mapping_response.data))
         const mappedData = await mapperv2.MapperV2ForConfirm(
           response.data,
           mapping_response.data
@@ -284,7 +286,7 @@ async Status(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    // setCounter()
+    // // setCounter()
     try {
       // var [response, mapping_response] = await Promise.all([
       //   axios.get(payload.http_entity_endpoint),
@@ -332,7 +334,7 @@ async Update(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
       // var [response, mapping_response] = await Promise.all([
       //   axios.get(payload.http_entity_endpoint),
@@ -380,7 +382,7 @@ async Cancel(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
       // var [response, mapping_response] = await Promise.all([
       //   axios.get(payload.http_entity_endpoint),
@@ -428,7 +430,7 @@ async Support(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
       var [response, mapping_response] = await Promise.all([
         axios.get(payload.http_entity_endpoint),
@@ -469,16 +471,23 @@ async Track(payload,callback){
   try{
   const key_id=`${this.key_id}`
   if (await Authentication(key_id)) {
-    setCounter()
+    // setCounter()
     try {
-      var [response, mapping_response] = await Promise.all([
-        axios.get(payload.http_entity_endpoint),
-        axios.get(domain + "/track/view", {
-          headers: {
-            "Authorization":"Bearer "+key_id,
-          },
-        })
-      ]);
+      // var [response, mapping_response] = await Promise.all([
+      //   axios.get(payload.http_entity_endpoint),
+      //   axios.get(domain + "/track/view", {
+      //     headers: {
+      //       "Authorization":"Bearer "+key_id,
+      //     },
+      //   })
+      // ]);
+      var mapping_response=await axios.get(domain + "/cancel/view", {
+        headers: {
+          "Authorization":"Bearer "+key_id,
+        },
+      })
+      const user_endpoint=mapping_response.data.user_api
+      const response=await axios.get(user_endpoint.endpoint,{headers:user_endpoint.headers||{}})
       const mappedData = await mapperv2.MapperV2ForTrack(
         response.data,
         mapping_response.data

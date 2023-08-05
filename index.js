@@ -8,7 +8,7 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import temp from "./bpp/mapper/on_select.js";
+import temp from "./bpp/mapper/on_confirm.js";
 // import EventEmitter from 'events';
 // const eventEmitter = new EventEmitter();
 import EunimartSeller from "./bpp/eunimartseller.js";
@@ -115,7 +115,7 @@ app.get('/temp_data', async (req, res) => {
 
 // }
 // )
-var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTEyMDk2MTUsImV4cCI6MTY5MTIyMDQxNX0.tboPAS1OcaBlb0Ns5-SBEZRG1YYnpy4jU25auXUFRsU")
+var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTEyMjM5NjksImV4cCI6MTY5MTIzNDc2OX0.YsxogE9xpCl6YcwL6JtIKz73a6GbK_Ayj5BaGZf0F_Y")
 sdk.Router(app)
 sdk.Config({
   "subscriber_id": "ondc.eunimart.com",
@@ -239,6 +239,23 @@ const test = async () => {
 
   sdk.emitter.on("seller_update", function (data) {
     sdk.order.Update(
+      {
+        "name": "init",
+        "http_entity_endpoint": "http://localhost:8081/temp_data",
+        "http_timeout": 8000,
+        "http_retry_count": 0,
+        "header_validity": 600000,
+        "header_authentication": true,
+        "set_authorization_header": true
+      },
+      async function (data, err) {
+        console.log(JSON.stringify(data),err)
+      },
+    )
+  })
+
+  sdk.emitter.on("seller_track", function (data) {
+    sdk.order.Track(
       {
         "name": "init",
         "http_entity_endpoint": "http://localhost:8081/temp_data",

@@ -160,7 +160,10 @@ class MapperVersion2{
         return await bppProtocolOnStatus(res.context?.bap_uri, res); 
     }
     async MapperV2ForTrack(data,mapper){
-        const res=this.Looper(data,mapper)
+        var res = {
+            "message":{}
+        }
+        res.message = this.Looper(data,mapper.message)
         setContext({
             "timestamp": new Date(),
             "action": "on_track"
