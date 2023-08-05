@@ -74,7 +74,29 @@ function encryptCache(key_id,data={}){
 
 function decryptCache(){
 // Read and decrypt the data from the text file
-const encryptedDataFromFile = fs.readFileSync('./bpp/shared/utils/cache/output.txt', 'utf8');
+// const encryptedDataFromFile = fs.readFileSync('./bpp/shared/utils/cache/output.txt', 'utf8');
+
+const filePath = './bpp/shared/utils/cache/output.txt';
+
+let encryptedDataFromFile;
+
+try {
+  // Try reading the file
+  encryptedDataFromFile = fs.readFileSync(filePath, 'utf8');
+} catch (err) {
+  // If the file doesn't exist (ENOENT error), create the file with empty content
+  if (err.code === 'ENOENT') {
+    try {
+      fs.writeFileSync(filePath, '', 'utf8');
+      encryptedDataFromFile = fs.readFileSync(filePath, 'utf8');
+    } catch (err) {
+      console.error('Error while creating the file:', err);
+    }
+  } else {
+    console.error('Error while reading the file:', err);
+  }
+}
+
 // console.log("-----",encryptedDataFromFile)
 const encryptionKey = 'myEncryptionKey';
 
