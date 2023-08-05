@@ -114,9 +114,9 @@ var temp={
         "ttl": "P1D"
       },
     "payment": {
-        "buyer_app_finder_fee_type": "percent",
-        "buyer_app_finder_fee_amount": "3",
-        "settlement_details": [
+        "@ondc/org/buyer_app_finder_fee_type": "percent",
+        "@ondc/org/buyer_app_finder_fee_amount": "3",
+        "@ondc/org/settlement_details": [
             {
                 "settlement_counterparty": "seller-app",
                 "settlement_phase": "sale-amount",
