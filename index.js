@@ -115,7 +115,7 @@ app.get('/temp_data', async (req, res) => {
 
 // }
 // )
-var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTExNDIxODAsImV4cCI6MTY5MTE1Mjk4MH0.m02TavX_3Ctb2jvs2e-PqwHJU-anznvv40DH4otoIjs")
+var sdk = new EunimartSeller("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5Ijoidjgzc3FINEpadW9DWmNpQkx4WWZ4NzVrbHJNN3RRNnoiLCJpYXQiOjE2OTEyMDk2MTUsImV4cCI6MTY5MTIyMDQxNX0.tboPAS1OcaBlb0Ns5-SBEZRG1YYnpy4jU25auXUFRsU")
 sdk.Router(app)
 sdk.Config({
   "subscriber_id": "ondc.eunimart.com",
